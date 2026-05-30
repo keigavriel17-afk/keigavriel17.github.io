@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keith Gabriel P. Torres — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --surface2: #1c1c1c;
+  --border: rgba(255,255,255,0.07);
+  --amber: #e8922a;
+  --amber-dim: rgba(232,146,42,0.12);
+  --amber-glow: rgba(232,146,42,0.25);
+  --text: #f0ece4;
+  --muted: #7a7268;
+  --muted2: #4a4640;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.4;
+}
+
+
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.glow-orb.one {
+  width: 600px; height: 600px;
+  background: rgba(232,146,42,0.07);
+  top: -200px; right: -100px;
+}
+.glow-orb.two {
+  width: 400px; height: 400px;
+  background: rgba(232,146,42,0.05);
+  bottom: 10%; left: -150px;
+}
+
+
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3.5rem; height: 64px;
+  background: rgba(13,13,13,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem; color: var(--amber);
+  text-decoration: none; letter-spacing: -0.01em;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--amber); }
+
+
+.wrapper { position: relative; z-index: 1; }
+
+
+#home {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 3.5rem 80px;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-index {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 12px;
+  animation: fadeUp 0.6s 0.1s both;
+}
+.hero-index::before { content: '01 —'; color: var(--amber); }
+
+.hero-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
+  font-weight: 400; line-height: 0.95;
+  letter-spacing: -0.03em;
+  animation: fadeUp 0.7s 0.15s both;
+}
+.hero-name em { font-style: italic; color: var(--amber); }
+.hero-name .last { display: block; color: var(--text); }
+
+.hero-divider {
+  width: 100%; height: 1px;
+  background: var(--border);
+  margin: 2.5rem 0;
+  animation: scaleX 0.8s 0.4s both;
+  transform-origin: left;
+}
+
+.hero-bottom {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.45s both;
+}
+
+.hero-intro {
+  max-width: 480px;
+  font-size: 1rem; line-height: 1.85;
+  color: var(--muted); font-weight: 400;
+}
+.hero-intro strong { color: var(--text); font-weight: 600; }
+
+.hero-meta {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem;
+  text-align: right;
+}
+.meta-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.1em;
+}
+.meta-tag span { color: var(--amber); }
+
+.scroll-hint {
+  position: absolute; bottom: 2rem; left: 3.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--muted2);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+  animation: fadeUp 1s 1s both;
+}
+.scroll-hint::after {
+  content: '';
+  width: 40px; height: 1px;
+  background: var(--muted2);
+  animation: scrollLine 2s 1.5s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%, 100% { width: 40px; opacity: 1; }
+  50% { width: 70px; opacity: 0.4; }
+}
+
+
+#about {
+  padding: 100px 3.5rem;
+  display: grid; grid-template-columns: 280px 1fr;
+  gap: 5rem; align-items: start;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--amber);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.section-heading {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -0.02em;
+  position: sticky; top: 100px;
+}
+.section-heading em { font-style: italic; color: var(--amber); }
+
+.about-content p {
+  font-size: 1rem; line-height: 1.9; color: var(--muted);
+  margin-bottom: 1.5rem; font-weight: 400;
+}
+.about-content p strong { color: var(--text); font-weight: 600; }
+.about-content p:last-child { margin-bottom: 0; }
+
+.about-facts {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; margin-top: 3rem;
+  border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden;
+}
+.fact {
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.fact:nth-child(even) { border-right: none; }
+.fact:nth-last-child(-n+2) { border-bottom: none; }
+.fact-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; color: var(--muted);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.fact-value { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+
+
+#skills {
+  padding: 100px 3.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.skills-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 4rem; flex-wrap: wrap; gap: 1rem;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.skill-card {
+  background: var(--surface);
+  padding: 2rem;
+  position: relative;
+  transition: background 0.25s;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.skill-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--amber-dim);
+  opacity: 0; transition: opacity 0.25s;
+}
+.skill-card:hover { background: var(--surface2); }
+.skill-card:hover::before { opacity: 1; }
+.skill-card:nth-child(4n) { border-right: none; }
+
+.skill-lang {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--amber);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.skill-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.75rem; font-weight: 400;
+  line-height: 1; margin-bottom: 1rem;
+  color: var(--text);
+}
+.skill-bar-bg {
+  height: 2px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.skill-bar {
+  height: 100%;
+  background: var(--amber);
+  border-radius: 2px;
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.skill-level-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem; color: var(--muted);
+  margin-top: 0.6rem; letter-spacing: 0.1em;
+}
+.skill-icon {
+  position: absolute; bottom: 1.5rem; right: 1.75rem;
+  font-size: 2rem; opacity: 0.12;
+  transition: opacity 0.25s;
+}
+.skill-card:hover .skill-icon { opacity: 0.2; }
+
+#contact {
+  padding: 100px 3.5rem;
+  display: grid; grid-template-columns: 280px 1fr;
+  gap: 5rem; align-items: start;
+}
+.contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+.contact-link {
+  display: flex; align-items: center; gap: 14px;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text); text-decoration: none;
+  font-size: 0.9rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.contact-link:hover {
+  border-color: var(--amber);
+  background: var(--amber-dim);
+  color: var(--amber);
+}
+.contact-link .link-icon {
+  width: 32px; height: 32px;
+  background: var(--surface2);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.contact-link:hover .link-icon { background: var(--amber-glow); }
+
+.contact-note {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2.5rem;
+  margin-top: 0;
+}
+.contact-note h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2rem; font-weight: 400;
+  margin-bottom: 1rem; line-height: 1.2;
+}
+.contact-note h3 em { font-style: italic; color: var(--amber); }
+.contact-note p {
+  font-size: 0.95rem; color: var(--muted);
+  line-height: 1.8; margin-bottom: 2rem;
+}
+.availability {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; color: var(--muted);
+  letter-spacing: 0.1em;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #4caf50;
+  box-shadow: 0 0 8px #4caf50;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 8px #4caf50; }
+  50% { box-shadow: 0 0 16px #4caf50, 0 0 24px rgba(76,175,80,0.4); }
+}
+
+footer {
+  padding: 1.5rem 3.5rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem; color: var(--muted2);
+  letter-spacing: 0.1em;
+}
+footer span { color: var(--amber); }
+
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes scaleX {
+  from { transform: scaleX(0); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+@media (max-width: 860px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  #home, #about, #contact, #skills { padding: 80px 1.5rem; }
+  #about, #contact { grid-template-columns: 1fr; }
+  .section-heading { position: static; }
+  .about-facts { grid-template-columns: 1fr 1fr; }
+  footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="glow-orb one"></div>
+<div class="glow-orb two"></div>
+
+<nav>
+  <a href="#home" class="nav-logo">KGT</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="wrapper">
+
+  
+  <section id="home">
+    <p class="hero-index">Portfolio — Computer Science Student</p>
+
+    <h1 class="hero-name">
+      <em>Keith Gabriel</em>
+      <span class="last">P. Torres</span>
+    </h1>
+
+    <div class="hero-divider"></div>
+
+    <div class="hero-bottom">
+      <p class="hero-intro">
+        A <strong>Computer Science student</strong> with a passion for building things that live on the internet. I write code in Java, Python, HTML, and C# — learning something new with every project I take on. I believe in understanding the fundamentals deeply before chasing the frameworks.
+      </p>
+      <div class="hero-meta">
+        <p class="meta-tag">Born <span>May 21, 2004</span></p>
+        <p class="meta-tag">Based in <span>Taguig, Philippines</span></p>
+        <p class="meta-tag">Course <span>Bachelor of Science in Computer Science</span></p>
+      </div>
+    </div>
+
+    <div class="scroll-hint">Scroll to explore</div>
+  </section>
+
+  
+  <section id="about">
+    <div class="section-left reveal">
+      <p class="section-num">02 — About</p>
+      <h2 class="section-heading">Who I<br><em>am.</em></h2>
+    </div>
+
+    <div class="about-content">
+      <p class="reveal reveal-d1">
+        Hey — I'm <strong>Keith Gabriel P. Torres</strong>, a 22-year-old Computer Science student driven by an obsession with how software works. From the logic of algorithms to the craft of writing readable, efficient code, I find meaning in every layer of the stack.
+      </p>
+      <p class="reveal reveal-d2">
+        My journey started with curiosity: <strong>why does this work?</strong> That question led me to explore programming languages, problem-solving patterns, and the fundamentals that make great software. I approach every challenge as an opportunity to sharpen my thinking and grow as a developer.
+      </p>
+      <p class="reveal reveal-d3">
+        Outside of code, I'm drawn to understanding systems — how things connect, scale, and break. That mindset shapes everything from how I debug a program to how I plan a project from scratch.
+      </p>
+
+      <div class="about-facts reveal reveal-d4">
+        <div class="fact">
+          <div class="fact-label">Full Name</div>
+          <div class="fact-value">Keith Gabriel P. Torres</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Birthday</div>
+          <div class="fact-value">May 21, 2004</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Course</div>
+          <div class="fact-value">Bachelor of Science in Computer Science</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Focus</div>
+          <div class="fact-value">Web & Software Dev</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="skills">
+    <div class="skills-header reveal">
+      <div>
+        <p class="section-num">03 — Skills</p>
+        <h2 class="section-heading" style="position:static;">Languages I<br><em>speak.</em></h2>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal reveal-d1">
+        <p class="skill-lang">Language 01</p>
+        <h3 class="skill-name">Java</h3>
+        <div class="skill-bar-bg"><div class="skill-bar" data-width="40%"></div></div>
+        <p class="skill-level-label">Basic — OOP & Logic</p>
+        <div class="skill-icon">☕</div>
+      </div>
+
+      <div class="skill-card reveal reveal-d2">
+        <p class="skill-lang">Language 02</p>
+        <h3 class="skill-name">Python</h3>
+        <div class="skill-bar-bg"><div class="skill-bar" data-width="40%"></div></div>
+        <p class="skill-level-label">Basic — Scripting & Logic</p>
+        <div class="skill-icon">🐍</div>
+      </div>
+
+      <div class="skill-card reveal reveal-d3">
+        <p class="skill-lang">Language 03</p>
+        <h3 class="skill-name">HTML</h3>
+        <div class="skill-bar-bg"><div class="skill-bar" data-width="50%"></div></div>
+        <p class="skill-level-label">Basic — Web Structure</p>
+        <div class="skill-icon">🌐</div>
+      </div>
+
+      <div class="skill-card reveal reveal-d4">
+        <p class="skill-lang">Language 04</p>
+        <h3 class="skill-name">C#</h3>
+        <div class="skill-bar-bg"><div class="skill-bar" data-width="35%"></div></div>
+        <p class="skill-level-label">Basic — .NET Fundamentals</p>
+        <div class="skill-icon">⚙️</div>
+      </div>
+    </div>
+  </section>
+
+ 
+  <section id="contact">
+    <div class="section-left reveal">
+      <p class="section-num">04 — Contact</p>
+      <h2 class="section-heading">Get in<br><em>touch.</em></h2>
+      <div class="contact-links">
+        <a href="mailto:keithgabrieltorres@gmail.com" class="contact-link">
+          <span class="link-icon">✉️</span> Email
+        </a>
+        <a href="https://github.com" target="_blank" class="contact-link">
+          <span class="link-icon">🐙</span> GitHub
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="contact-link">
+          <span class="link-icon">💼</span> LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-note reveal reveal-d2">
+      <h3>Let's build<br><em>something.</em></h3>
+      <p>
+        I'm always open to connecting with fellow developers, mentors, or anyone who wants to talk code. Whether it's a collaboration, a question, or just a conversation — reach out.
+      </p>
+      <div class="availability">
+        <div class="dot"></div>
+        Available for opportunities & collaborations
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>Keith Gabriel P. Torres</span>
+  <span>© 2026 — KGT</span>
+  <span>CS Student</span>
+</footer>
+
+<script>
+ 
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        
+        e.target.querySelectorAll('.skill-bar').forEach(bar => {
+          bar.style.width = bar.dataset.width;
+        });
+        
+        if (e.target.classList.contains('skill-card')) {
+          const bar = e.target.querySelector('.skill-bar');
+          if (bar) bar.style.width = bar.dataset.width;
+        }
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--amber)' : '';
+    });
+  });
+</script>
+</body>
+</html>
